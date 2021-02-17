@@ -1,0 +1,201 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<script>
+	var roles;
+	var board_types;
+	
+	function showRoles(){
+		var select = document.getElementById('SelectRole');
+		select.size = roles.length;
+		console.log(roles);
+		roles.forEach(element => {
+			var opt = document.createElement("option");
+			opt.value = element;
+			opt.text = element;
+			select.add(opt);
+			}
+		);
+	}
+	
+	function changeBoard(){
+		var board = document.getElementById('BoardType');
+		roles = board_types[board.value].roles;
+		
+		var s = document.getElementById('SelectRole');
+		while(s.length >= 1){
+			s.remove(0);
+		}
+		
+		showRoles();
+	}
+	
+	function deleteRole(){
+		var role_list = document.getElementById('SelectRole');
+		if(role_list.selectedIndex != -1){
+			role_list.size -=1;
+			role_list.remove(role_list.selectedIndex);
+		}
+	}
+	
+	function addRole(){
+		var role_to_add = document.getElementById('AddRole');
+		var role_list = document.getElementById('SelectRole');
+		
+		console.log(role_to_add.selectedIndex);
+		
+		var opt = document.createElement("option");
+			opt.value = role_to_add[role_to_add.selectedIndex].value;
+			opt.text = role_to_add[role_to_add.selectedIndex].text;
+		role_list.add(opt);
+		++role_list.size;
+	}
+	
+	function rolePlay(i){
+		var sid = document.getElementById('RolePlay');
+		var str = '<center>你好，'+ (i+1) + "號玩家！<br><br>";
+		var str_onclick = '"showPic('+ i +')"';
+		/*var str_onclick = function() {
+			showPic(i);
+		};*/
+		sid.innerHTML = str + "<input type=button value=顯示我的身分牌 onClick="+str_onclick+"></center>";
+	}
+	
+	function showPic(i){
+		var sid = document.getElementById('RolePlay');
+		var p = document.getElementById('SelectRole');
+		var pname = p[i].value+'.PNG';
+		var str = "<input type=button value=\"我知道了！\" onClick=\"rolePlay("+(i+1)+")\"></center>";
+		sid.innerHTML = "<center><img src=pic/roles/"+pname+" width=\"25%\"><br>" + str;
+	}
+	
+	function startGame(){
+		document.getElementById('BoardType').hidden = true;
+		document.getElementById('AddRole').hidden = true;
+		document.getElementById('ButtonAddRole').hidden = true;
+		document.getElementById('SelectRole').hidden = true;
+		document.getElementById('ButtonDeleteRole').hidden = true;
+		document.getElementById('ButtonStartGame').hidden = true;
+		
+		var role_list = document.getElementById('SelectRole');
+		var player_amount = role_list.length;
+
+		for(var k=1;k<=10;++k){
+			for(var i=0;i<role_list.length;++i){
+				var j = Math.floor(Math.random()*role_list.length);
+				role_list[i].value = role_list[j].value;
+				role_list[j].text = role_list[i].text;
+				role_list[i].text = role_list[i].value;
+				role_list[j].value = role_list[j].text;
+			}
+		}
+
+		rolePlay(0);
+
+		/*for(var i=0;i<role_list.length;++i){
+			var str = '你是'+ (i+1) +'號玩家，你的身分是：' + role_list[i].value;
+			console.log(str);
+		}*/
+	}
+
+	board_types = {
+		idiot: {
+			id: 'idiot',
+			name: '白混',
+			roles : [
+				'預言家', '女巫', '獵人', '白痴',
+				'混血兒', '平民', '平民', '平民',
+				'狼人', '狼人', '狼人', '狼人']
+		},
+		guard: {
+			id: 'guard',
+			name: '狼王守衛',
+			roles : [
+				'預言家', '女巫', '獵人', '守衛',
+				'平民', '平民', '平民', '平民',
+				'狼王', '狼人', '狼人', '狼人']
+		},
+		knight: {
+			id: 'knight',
+			name: '狼美騎士',
+			roles : [
+				'預言家', '女巫', '騎士', '守衛',
+				'平民', '平民', '平民', '平民',
+				'狼美人', '狼人', '狼人', '狼人']
+		},
+		imitator: {
+			id: 'imitator',
+			name: '機械狼',
+			roles : [
+				'預言家', '女巫', '獵人', '守衛',
+				'平民', '平民', '平民', '平民',
+				'機械狼', '狼人', '狼人', '狼人']
+		}
+	};
+	
+	roles = board_types['idiot'].roles;
+</script>
+	
+<select id="BoardType" name="BoardType" onChange="changeBoard()">
+	<option value="idiot">白混</option>
+	<option value="guard">狼王守衛</option>
+	<option value="knight">狼美騎士</option>
+	<option value="imitator">機械狼</option>
+</select>
+
+<p>
+<select name="AddRole" id="AddRole">
+	<option value="預言家">預言家</option>
+	<option value="女巫">女巫</option>
+	<option value="獵人">獵人</option>
+	<option value="白痴">白痴</option>
+	<option value="混血兒">混血兒</option>
+	<option value="野孩子">野孩子</option>
+	<option value="平民">平民</option>
+	<option value="狼人">狼人</option>
+	<option value="石象鬼">石象鬼</option>
+	<option value="守墓人">守墓人</option>
+	<option value="狼美人" selected>狼美人</option>
+	<option value="騎士">騎士</option>
+	<option value="攝夢人">攝夢人</option>
+	<option value="狼王">狼王</option>
+	<option value="白狼王">白狼王</option>
+	<option value="黑市商人">黑市商人</option>
+	<option value="狼兄">狼兄</option>
+	<option value="狼弟">狼弟</option>
+	<option value="機械狼">機械狼</option>
+	<option value="烏鴉">烏鴉</option>
+	<option value="隱狼">隱狼</option>
+	<option value="夢魘">夢魘</option>
+	<option value="惡靈騎士">惡靈騎士</option>
+	<option value="通靈師">通靈師</option>
+	<option value="黑蝙蝠">黑蝙蝠</option>
+	<option value="盜賊">盜賊</option>
+	<option value="魔術師">魔術師</option>
+	<option value="獵魔人">獵魔人</option>
+	<option value="血月使徒">血月使徒</option>
+	<option value="潛行者">潛行者</option>
+	<option value="熊">熊</option>
+	<option value="禁言長老">禁言長老</option>
+	<option value="狐仙">狐仙</option>
+	<option value="村長">村長</option>
+</select>
+<input type="button" id="ButtonAddRole" onClick="addRole()" value="新增">
+
+<p>
+
+<select name="SelectRole" id="SelectRole">
+</select>
+<input type="button" id="ButtonDeleteRole" onClick="deleteRole()" value="刪除角色">
+
+<script> showRoles();</script>
+
+<p>
+<input type="button" id="ButtonStartGame" value="開始遊戲" onClick="startGame()">
+
+<span id="RolePlay"></span>
+
+</body>
+</html>
