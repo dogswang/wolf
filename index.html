@@ -56,13 +56,13 @@
 	function rolePlay(i){
 		var sid = document.getElementById('RolePlay');
 		
-		var str = '你好，'+ (i+1) + "號玩家！<br>";
+		var str = '<center>你好，'+ (i+1) + "號玩家！<br><br>";
 		var str_onclick = '"showPic('+ i +')"';
 		/*var str_onclick = function() {
 			showPic(i);
 		};*/
 		
-		sid.innerHTML = str + "<input type=button value=顯示我的身分牌 onClick="+str_onclick+">";
+		sid.innerHTML = str + "<input type=button value=顯示我的身分牌 onClick="+str_onclick+"></center>";
 		
 	}
 	
@@ -71,9 +71,9 @@
 		var sid = document.getElementById('RolePlay');
 		var p = document.getElementById('SelectRole');
 		var pname = p[i].value+'.PNG';
-		var str = "<input type=button value=\"我知道了！\" onClick=\"rolePlay("+(i+1)+")\">";
+		var str = "<input type=button value=\"我知道了！\" onClick=\"rolePlay("+(i+1)+")\"></center>";
 
-		sid.innerHTML = "<img src=pic/roles/"+pname+"><br>" + str;
+		sid.innerHTML = "<center><img src=pic/roles/"+pname+" width="50%"><br>" + str;
 	}
 	
 	function startGame(){
